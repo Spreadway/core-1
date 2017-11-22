@@ -194,7 +194,7 @@ func (b *MinerBuilder) Build() (miner *Miner, err error) {
 }
 
 func (b *MinerBuilder) resolvePublicIPs() error {
-	// PublicIPs might have been set via builder's API.
+	// Public IPs might have been set via builder's API.
 	if b.publicIPs != nil {
 		return nil
 	}
