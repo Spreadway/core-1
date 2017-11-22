@@ -58,7 +58,7 @@ message MinerStartRequest{
 }
 
 message SocketAddr {
-    string addr = 1;
+    repeated string addrs = 1;
     //
     // Actually an `uint16` here. Protobuf is so clear and handy.
     uint32 port = 2;

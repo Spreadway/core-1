@@ -48,9 +48,8 @@ type Miner struct {
 	hubAddress string
 	hubKey     *ecdsa.PublicKey
 
-	// NOTE: do not use static detection
-	pubAddress string
-	natType    stun.NATType
+	publicIPs []string
+	natType   stun.NATType
 
 	rl *reverseListener
 
@@ -344,8 +343,8 @@ func (m *Miner) Start(ctx context.Context, request *pb.MinerStartRequest) (*pb.M
 			}
 
 			replyPort := &pb.SocketAddr{
-				Addr: m.pubAddress,
-				Port: uint32(hostPort),
+				Addrs: m.publicIPs,
+				Port:  uint32(hostPort),
 			}
 			rpl.Ports[string(port)] = replyPort
 		}
@@ -438,7 +437,7 @@ func (m *Miner) sendUpdatesOnRequest(server pb.Miner_TasksStatusServer) {
 	for {
 		_, err := server.Recv()
 		if err != nil {
-			log.G(m.ctx).Info("tasks status server errored", zap.Error(err))
+			log.G(m.ctx).Info("tasks status server returned an error", zap.Error(err))
 			return
 		}
 		log.G(m.ctx).Debug("handling tasks status request")

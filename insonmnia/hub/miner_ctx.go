@@ -332,15 +332,18 @@ func (m *MinerCtx) registerRoutes(ID string, ports map[string]*pb.SocketAddr) []
 			continue
 		}
 
-		route, err := m.router.RegisterRoute(ID, binding.Network(), endpoint.Addr, uint16(endpoint.Port))
-		if err != nil {
-			log.G(m.ctx).Warn("failed to register route", zap.Error(err))
-			continue
+		for _, addr := range endpoint.Addrs {
+			route, err := m.router.RegisterRoute(ID, binding.Network(), addr, uint16(endpoint.Port))
+			if err != nil {
+				log.G(m.ctx).Warn("failed to register route", zap.Error(err))
+				continue
+			}
+			routes = append(routes, routeMapping{
+				containerPort: containerPort,
+				route:         route,
+			})
 		}
-		routes = append(routes, routeMapping{
-			containerPort: containerPort,
-			route:         route,
-		})
+
 	}
 
 	return routes
