@@ -818,11 +818,6 @@ func (h *Hub) onNewHub(endpoint string) {
 
 // TODO: Decomposed here to be able to easily comment when UDP capturing occurs :)
 func (h *Hub) startDiscovery() error {
-	ip, err := util.GetPublicIP()
-	if err != nil {
-		return err
-	}
-
 	workersPort, err := util.ParseEndpointPort(h.cfg.Endpoint)
 	if err != nil {
 		return err
@@ -833,8 +828,8 @@ func (h *Hub) startDiscovery() error {
 		return err
 	}
 
-	workersEndpoint := ip.String() + ":" + workersPort
-	clientEndpoint := ip.String() + ":" + clientPort
+	workersEndpoint := h.cfg.Endpoint + ":" + workersPort
+	clientEndpoint := h.cfg.Endpoint + ":" + clientPort
 	//TODO: this detection seems to be strange
 	h.grpcEndpointAddr = clientEndpoint
 
