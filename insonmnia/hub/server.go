@@ -229,7 +229,7 @@ func (h *Hub) generateTaskID() string {
 }
 
 func (h *Hub) startTask(ctx context.Context, request *structs.StartTaskRequest) (*pb.HubStartTaskReply, error) {
-	exists, err := h.eth.CheckDealExists(request.GetDeal())
+	exists, err := h.eth.CheckDealExists(request.GetDeal().Id)
 	if err != nil {
 		return nil, err
 	}
@@ -455,6 +455,8 @@ func (h *Hub) ProposeDeal(ctx context.Context, r *pb.DealRequest) (*pb.Empty, er
 	if !order.IsBid() {
 		return nil, ErrInvalidOrderType
 	}
+
+	// TODO(sshaman1101): implement this
 	exists, err := h.market.OrderExists(order.GetID())
 	if err != nil {
 		return nil, err
@@ -479,8 +481,20 @@ func (h *Hub) ProposeDeal(ctx context.Context, r *pb.DealRequest) (*pb.Empty, er
 		return nil, err
 	}
 
-	// h.eth
+	dealCreated, err := h.eth.WaitForDealCreated(request)
+	if err != nil {
+		return nil, err
+	}
 
+	if !dealCreated {
+		return nil, errors.New("Deal was not created")
+	}
+
+	// ?????????
+	// what will indicate that it is OURs deal?
+	// ?????????
+
+	// h.eth
 	// TODO: Listen for ETH.
 	// TODO: Start timeout for ETH approve deal.
 
