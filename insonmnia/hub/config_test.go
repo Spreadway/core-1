@@ -29,7 +29,10 @@ endpoint: ":10002"
 cluster:
   grpc_endpoint: ":10001"
 locator:
-  address: "127.0.0.1:9090"`
+  address: "127.0.0.1:9090"
+market:
+  address: "127.0.0.1:9095"`
+
 	err := createTestConfigFile(raw)
 	assert.Nil(t, err)
 
@@ -52,7 +55,9 @@ bootnodes:
 monitoring:
   endpoint: ":10001"
 locator:
-  address: "127.0.0.1:9090"`
+  address: "127.0.0.1:9090"
+market:
+  address: "127.0.0.1:9095"`
 
 	err := createTestConfigFile(raw)
 	assert.Nil(t, err)
@@ -91,7 +96,9 @@ monitoring:
 logging:
   level: -1
 locator:
-  address: "127.0.0.1:9090"`
+  address: "127.0.0.1:9090"
+market:
+  address: "127.0.0.1:9095"`
 
 	err := createTestConfigFile(raw)
 	assert.Nil(t, err)
@@ -111,7 +118,9 @@ endpoint: ":10002"
 monitoring:
   endpoint: ":10001"
 locator:
-  address: "127.0.0.1:9090"`
+  address: "127.0.0.1:9090"
+market:
+  address: "127.0.0.1:9095"`
 
 	err := createTestConfigFile(raw)
 	assert.Nil(t, err)
@@ -153,6 +162,8 @@ bootnodes:
   - "enode://node2"
 monitoring:
   endpoint: ":10001"
+market:
+  address: "127.0.0.1:9095"
 locator:
   address: "127.0.0.1:9090"
   period: 500
